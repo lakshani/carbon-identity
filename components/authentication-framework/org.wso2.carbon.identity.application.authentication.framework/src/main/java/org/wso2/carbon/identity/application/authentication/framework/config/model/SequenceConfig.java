@@ -45,6 +45,7 @@ public class SequenceConfig implements Serializable {
     private AuthenticatedUser authenticatedUser;
     private String authenticatedIdPs;
 
+    // is this the place?
     private AuthenticatorConfig authenticatedReqPathAuthenticator;
 
     public SequenceConfig() {
