@@ -19,6 +19,7 @@
 package org.wso2.carbon.identity.scim.common.listener;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.CarbonConstants;
@@ -71,6 +72,27 @@ public class SCIMUserOperationListener extends AbstractIdentityUserOperationEven
             return true;
         }
 
+        String domainName = userStoreManager.getRealmConfiguration().getUserStoreProperty(
+                UserCoreConstants.RealmConfig.PROPERTY_DOMAIN_NAME);
+        if(authenticated){
+            if (StringUtils.isNotEmpty(UserCoreUtil.getDomainFromThreadLocal())) {
+                if(!StringUtils.equals(UserCoreUtil.getDomainFromThreadLocal(), domainName)){
+                    return true;
+                }
+            } else if (!StringUtils.equals(UserCoreConstants.PRIMARY_DEFAULT_DOMAIN_NAME, domainName)){
+                return true;
+            }
+        } else {
+            String usernameWithDomain = UserCoreUtil.addDomainToName(userName, domainName);
+            boolean isUserExistInCurrentDomain = userStoreManager.isExistingUser(usernameWithDomain);
+            if (!isUserExistInCurrentDomain) {
+                if (log.isDebugEnabled()) {
+                    log.debug("User, " + userName + " does not exist in " + domainName);
+                }
+                return true;
+            }
+        }
+
         try {
             String activeAttributeValue = userStoreManager.getUserClaimValue(userName, SCIMConstants.ACTIVE_URI, null);
             boolean isUserActive = true;
@@ -84,8 +106,13 @@ public class SCIMUserOperationListener extends AbstractIdentityUserOperationEven
                 }
             }
             return true;
-
         } catch (org.wso2.carbon.user.api.UserStoreException e) {
+            if (e.getMessage().contains("UserNotFound")){
+                if (log.isDebugEnabled()){
+                    log.debug("User " + userName + " not found in user store", e);
+                }
+                return false;
+            }
             throw new UserStoreException(e);
         }
 
@@ -148,26 +175,25 @@ public class SCIMUserOperationListener extends AbstractIdentityUserOperationEven
             return true;
         }
 
+        //update last-modified-date
         try {
-            //update last-modified-date
-            try {
-                if (userStoreManager.isSCIMEnabled()) {
-                    Date date = new Date();
-                    String lastModifiedDate = AttributeUtil.formatDateTime(date);
-                    userStoreManager.setUserClaimValue(
-                            userName, SCIMConstants.META_LAST_MODIFIED_URI, lastModifiedDate, null);
-                }
-            } catch (org.wso2.carbon.user.api.UserStoreException e) {
-                log.debug(e);
-                throw new UserStoreException(
-                        "Error in obtaining user store information: isSCIMEnabled", e);
+            if (userStoreManager.isSCIMEnabled()) {
+                Date date = new Date();
+                String lastModifiedDate = AttributeUtil.formatDateTime(date);
+                userStoreManager.setUserClaimValue(
+                        userName, SCIMConstants.META_LAST_MODIFIED_URI, lastModifiedDate, null);
             }
-            return true;
-
         } catch (org.wso2.carbon.user.api.UserStoreException e) {
-            throw new UserStoreException(e);
+            if (e.getMessage().contains("UserNotFound")) {
+                if (log.isDebugEnabled()) {
+                    log.debug("User " + userName + " doesn't exist");
+                }
+            } else {
+                throw new UserStoreException("Error updating SCIM metadata in doPostUpdateCredentialByAdmin " +
+                        "listener", e);
+            }
         }
-
+        return true;
     }
 
     @Override

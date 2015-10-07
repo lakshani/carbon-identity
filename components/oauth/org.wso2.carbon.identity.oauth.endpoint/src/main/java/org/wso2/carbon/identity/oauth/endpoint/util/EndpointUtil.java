@@ -309,9 +309,9 @@ public class EndpointUtil {
 
 
             if (isOIDC) {
-                consentPage = IdentityUtil.getServerURL("/authenticationendpoint/oauth2_consent.do");
+                consentPage = OAuth2Util.OAuthURL.getOIDCConsentPageUrl();
             } else {
-                consentPage = IdentityUtil.getServerURL("/authenticationendpoint/oauth2_authz.do");
+                consentPage = OAuth2Util.OAuthURL.getOAuth2ConsentPageUrl();
             }
             if (params != null) {
                 consentPage += "?" + OAuthConstants.OIDC_LOGGED_IN_USER + "=" + URLEncoder.encode(loggedInUser,
@@ -332,7 +332,7 @@ public class EndpointUtil {
     public static String getScope(OAuth2Parameters params) {
         StringBuilder scopes = new StringBuilder();
         for (String scope : params.getScopes()) {
-            scopes.append(CharacterEncoder.getSafeText(scope) + " ");
+            scopes.append(scope + " ");
         }
         return scopes.toString().trim();
     }
