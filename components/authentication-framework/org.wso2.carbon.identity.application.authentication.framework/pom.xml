@@ -80,6 +80,18 @@
             <groupId>commons-lang.wso2</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.balana</groupId>
+            <artifactId>org.wso2.balana.utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.identity.entitlement.ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.identity.entitlement</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -132,6 +144,7 @@
                             org.wso2.carbon.identity.core.*; version="${carbon.identity.package.import.version.range}",
                             org.wso2.carbon.identity.user.profile.mgt; version="${carbon.identity.package.import.version.range}",
                             org.wso2.carbon.idp.mgt; version="${carbon.identity.package.import.version.range}",
+                            org.wso2.carbon.identity.entitlement.*; version="${carbon.identity.package.import.version.range}"
 
                         </Import-Package>
                         <Export-Package>!org.wso2.carbon.identity.application.authentication.framework.internal,
@@ -141,6 +154,22 @@
                     </instructions>
                 </configuration>
             </plugin>
+	    <plugin>
+               <groupId>org.apache.axis2</groupId>
+               <artifactId>axis2-java2wsdl-maven-plugin</artifactId>
+               <executions>
+                   <execution>
+                       <goals>
+                           <goal>java2wsdl</goal>
+                       </goals>
+                   </execution>
+               </executions>
+               <configuration>
+                   <className>
+                       org.wso2.carbon.identity.application.authentication.framework.SessionManagementService
+                   </className>
+               </configuration>
+           </plugin>
         </plugins>
     </build>
 

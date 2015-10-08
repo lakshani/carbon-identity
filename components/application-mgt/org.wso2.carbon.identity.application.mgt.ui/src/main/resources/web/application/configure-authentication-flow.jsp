@@ -334,7 +334,7 @@ var img = "";
 		for(var i=0;i<dataArray.length;i++){
 			newRow+='<option value="'+valuesArray[i]+'">'+dataArray[i]+'</option>';	
 		}
-		newRow+='</select></td><td class="leftCol-small" ><a onclick="deleteIDPRow(this);return false;" href="#" class="icon-link" style="background-image: url(images/delete.gif)"> Delete </a></td></tr>';
+		newRow+='</select></td><td><input type="checkbox" id="step_'+ stepID +'_idp_'+selectedIDPName+'_isAddedPolicy" name="step_'+ stepID +'_idp_'+selectedIDPName+'_isAddedPolicy" value="1"><label for="step_'+ stepID +'_idp_'+selectedIDPName+'_isAddedPolicy" style="cursor: pointer;">Apply XACML Policy</label></td><td class="leftCol-small" ><a onclick="deleteIDPRow(this);return false;" href="#" class="icon-link" style="background-image: url(images/delete.gif)"> Delete </a></td></tr>';
 		jQuery(obj)
 				.parent()
 				.parent()
@@ -484,6 +484,10 @@ var img = "";
 							      			int j = 0;
 							      			for(IdentityProvider idp:fedIdps) {
 							      				if (idp != null) {
+                                                    boolean isPolicyAdded = false;
+                                                    FederatedAuthenticatorConfig federatedAuthenticatorConfigs = idp.getFederatedAuthenticatorConfigs()[0];
+                                                        isPolicyAdded = federatedAuthenticatorConfigs.getPolicyAdded();
+
 							              %>
 							      
 							      	       <tr>
@@ -494,6 +498,10 @@ var img = "";
 							      	      		<td>
                                                     <select name="step_<%=step.getStepOrder()%>_idp_<%=Encode.forHtmlAttribute(idp.getIdentityProviderName())%>_fed_authenticator" style="float: left; min-width: 150px;font-size:13px;"><%=stepIdpAuthenticators.get(step.getStepOrder() +"_"+ idp.getIdentityProviderName())%></select>
 							      	      		</td>
+                                                <td>
+                                                    <input type="checkbox" name="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" id="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" value="1" <%=isPolicyAdded ? "checked" : "" %>>
+                                                    <label for="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" style="cursor: pointer;">Apply XACML Policy</label>
+                                                </td>
 							      	      		<td class="leftCol-small" >
 							      	      		<a onclick="deleteIDPRow(this);return false;" href="#" class="icon-link" style="background-image: url(images/delete.gif)"> Delete </a>
 							      	      		</td>

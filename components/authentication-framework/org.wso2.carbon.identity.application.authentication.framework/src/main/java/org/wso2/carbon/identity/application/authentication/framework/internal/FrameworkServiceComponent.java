@@ -38,6 +38,7 @@ import org.wso2.carbon.identity.application.common.model.FederatedAuthenticatorC
 import org.wso2.carbon.identity.application.common.model.LocalAuthenticatorConfig;
 import org.wso2.carbon.identity.application.common.model.Property;
 import org.wso2.carbon.identity.application.common.model.RequestPathAuthenticatorConfig;
+import org.wso2.carbon.identity.entitlement.EntitlementService;
 import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.stratos.common.listeners.TenantMgtListener;
 import org.wso2.carbon.user.core.service.RealmService;
@@ -64,6 +65,10 @@ import java.util.List;
  * interface="org.wso2.carbon.identity.application.authentication.framework.ApplicationAuthenticator"
  * cardinality="1..n" policy="dynamic" bind="setAuthenticator"
  * unbind="unsetAuthenticator"
+ * @scr.reference name="identity.entitlement.component"
+ * interface="org.wso2.carbon.identity.entitlement.EntitlementService"
+ * cardinality="1..1" policy="dynamic" bind="setEntitlementService"
+ * unbind="unsetEntitlementService"
  */
 public class FrameworkServiceComponent {
 
@@ -170,6 +175,13 @@ public class FrameworkServiceComponent {
         }
 
         this.httpService = null;
+    }
+
+    protected void unsetEntitlementService(EntitlementService entitlementService) {
+        if (log.isDebugEnabled()) {
+            log.debug("EntitlementService is unset in the Application Authentication Framework bundle");
+        }
+        FrameworkServiceDataHolder.getInstance().setEntitlementService(null);
     }
 
     protected void unsetRealmService(RealmService realmService) {

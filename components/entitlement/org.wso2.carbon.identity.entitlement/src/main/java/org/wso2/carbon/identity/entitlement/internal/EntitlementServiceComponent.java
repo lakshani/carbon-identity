@@ -247,6 +247,11 @@ public class EntitlementServiceComponent {
             ctxt.getBundleContext().registerService(
                     UserOperationEventListener.class.getName(), pipUserOperationListener, null);
 
+            org.wso2.carbon.identity.entitlement.EntitlementService entitlementService =
+                    new org.wso2.carbon.identity.entitlement.EntitlementService();
+            ctxt.getBundleContext().registerService(
+                    org.wso2.carbon.identity.entitlement.EntitlementService.class.getName(), entitlementService, null);
+
             // Register Notification sending on user operations. Even though this is registered
             // only subscribed modules will send messages.
             if (log.isDebugEnabled()) {

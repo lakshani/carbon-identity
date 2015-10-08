@@ -112,6 +112,9 @@ public class DefaultStepHandler implements StepHandler {
             } else {
                 // if this is a response from external parties (e.g. federated IdPs)
                 handleResponse(request, response, context);
+                //(context.getAuthenticationRequest(). == true) {
+                FrameworkUtils.getPolicyAuthorizationRequestHandler().handle(request, response, context);
+               // }
                 return;
             }
         }

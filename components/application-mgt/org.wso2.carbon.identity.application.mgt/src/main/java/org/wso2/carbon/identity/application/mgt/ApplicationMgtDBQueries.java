@@ -54,8 +54,8 @@ public class ApplicationMgtDBQueries {
             "INBOUND_AUTH_TYPE,PROP_NAME, PROP_VALUE, APP_ID) VALUES (?,?,?,?,?,?)";
     public static final String STORE_STEP_INFO = "INSERT INTO SP_AUTH_STEP (TENANT_ID, STEP_ORDER, APP_ID, " +
             "IS_SUBJECT_STEP, IS_ATTRIBUTE_STEP) VALUES (?,?,?,?,?)";
-    public static final String STORE_STEP_IDP_AUTH = "INSERT INTO SP_FEDERATED_IDP (ID, TENANT_ID, AUTHENTICATOR_ID) " +
-            "VALUES (?,?,?)";
+    public static final String STORE_STEP_IDP_AUTH = "INSERT INTO SP_FEDERATED_IDP (ID, TENANT_ID, AUTHENTICATOR_ID, IS_POCILY_ADDED) " +
+            "VALUES (?,?,?,?)";
     public static final String STORE_CLAIM_MAPPING = "INSERT INTO SP_CLAIM_MAPPING (TENANT_ID, IDP_CLAIM, SP_CLAIM, " +
             "APP_ID, IS_REQUESTED,DEFAULT_VALUE) VALUES (?,?,?,?,?,?)";
     public static final String STORE_ROLE_MAPPING = "INSERT INTO SP_ROLE_MAPPING (TENANT_ID, IDP_ROLE, SP_ROLE, APP_ID)"+
@@ -87,13 +87,17 @@ public class ApplicationMgtDBQueries {
     public static final String LOAD_CLIENTS_INFO_BY_APP_ID = "SELECT INBOUND_AUTH_KEY, INBOUND_AUTH_TYPE, PROP_NAME, " +
             "PROP_VALUE FROM  SP_INBOUND_AUTH WHERE APP_ID = ? AND TENANT_ID = ?";
     public static final String LOAD_STEPS_INFO_BY_APP_ID = "SELECT STEP_ORDER, AUTHENTICATOR_ID, IS_SUBJECT_STEP, " +
-            "IS_ATTRIBUTE_STEP "
+            "IS_ATTRIBUTE_STEP, IS_POLICY_ADDED "
             + "FROM SP_AUTH_STEP INNER JOIN SP_FEDERATED_IDP "
             + "ON SP_AUTH_STEP.ID=SP_FEDERATED_IDP.ID "
             + "WHERE APP_ID = ?";
     public static final String LOAD_STEP_ID_BY_APP_ID = "SELECT ID FROM SP_AUTH_STEP WHERE APP_ID = ?";
     public static final String LOAD_HUB_IDP_BY_NAME = "SELECT IS_FEDERATION_HUB FROM IDP WHERE NAME = ? AND TENANT_ID " +
             "= ?";
+    public static final String LOAD_POLICY_ADDED_INFO_BY_APP_ID_AND_AUTHENTICATOR_ID = "SELECT IS_POLICY_ADDED "
+            + "FROM SP_AUTH_STEP INNER JOIN SP_FEDERATED_IDP "
+            + "ON SP_AUTH_STEP.ID=SP_FEDERATED_IDP.ID "
+            + "WHERE APP_ID = ? AND AUTHENTICATOR_ID=?";
 
     public static final String LOAD_CLAIM_MAPPING_BY_APP_ID = "SELECT IDP_CLAIM, SP_CLAIM, IS_REQUESTED,DEFAULT_VALUE " +
             "FROM SP_CLAIM_MAPPING WHERE APP_ID = ? AND TENANT_ID = ?";
