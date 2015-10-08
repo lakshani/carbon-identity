@@ -99,6 +99,17 @@ public class FrameworkServiceComponent {
         FrameworkServiceDataHolder.getInstance().setRegistryService(registryService);
     }
 
+    public static EntitlementService getEntitlementService() {
+        return FrameworkServiceDataHolder.getInstance().getEntitlementService();
+    }
+
+    protected void setEntitlementService(EntitlementService entitlementService) {
+        if (log.isDebugEnabled()) {
+            log.debug("EntitlementService is set in the Application Authentication Framework bundle");
+        }
+        FrameworkServiceDataHolder.getInstance().setEntitlementService(entitlementService);
+    }
+
     public static BundleContext getBundleContext() throws FrameworkException {
         BundleContext bundleContext = FrameworkServiceDataHolder.getInstance().getBundleContext();
         if (bundleContext == null) {

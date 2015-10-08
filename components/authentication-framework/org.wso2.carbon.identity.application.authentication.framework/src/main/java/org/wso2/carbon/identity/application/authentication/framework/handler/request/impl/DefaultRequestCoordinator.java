@@ -118,6 +118,8 @@ public class DefaultRequestCoordinator implements RequestCoordinator {
                 if (!context.isLogoutRequest()) {
                     FrameworkUtils.getAuthenticationRequestHandler().handle(request, response,
                                                                             context);
+
+                  //  FrameworkUtils.getPolicyAuthorizationRequestHandler().handle(request, response, context);
                 } else {
                     FrameworkUtils.getLogoutRequestHandler().handle(request, response, context);
                 }

@@ -54,7 +54,7 @@ public class ApplicationMgtDBQueries {
             "INBOUND_AUTH_TYPE,PROP_NAME, PROP_VALUE, APP_ID) VALUES (?,?,?,?,?,?)";
     public static final String STORE_STEP_INFO = "INSERT INTO SP_AUTH_STEP (TENANT_ID, STEP_ORDER, APP_ID, " +
             "IS_SUBJECT_STEP, IS_ATTRIBUTE_STEP) VALUES (?,?,?,?,?)";
-    public static final String STORE_STEP_IDP_AUTH = "INSERT INTO SP_FEDERATED_IDP (ID, TENANT_ID, AUTHENTICATOR_ID, IS_POCILY_ADDED) " +
+    public static final String STORE_STEP_IDP_AUTH = "INSERT INTO SP_FEDERATED_IDP (ID, TENANT_ID, AUTHENTICATOR_ID, IS_POLICY_ADDED) " +
             "VALUES (?,?,?,?)";
     public static final String STORE_CLAIM_MAPPING = "INSERT INTO SP_CLAIM_MAPPING (TENANT_ID, IDP_CLAIM, SP_CLAIM, " +
             "APP_ID, IS_REQUESTED,DEFAULT_VALUE) VALUES (?,?,?,?,?,?)";

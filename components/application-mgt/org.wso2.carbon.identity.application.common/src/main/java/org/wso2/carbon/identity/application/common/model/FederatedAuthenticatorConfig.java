@@ -36,6 +36,7 @@ public class FederatedAuthenticatorConfig implements Serializable {
     protected String name;
     protected String displayName;
     protected boolean enabled;
+    protected boolean policyAdded;
     protected Property[] properties = new Property[0];
 
     public static FederatedAuthenticatorConfig build(OMElement federatedAuthenticatorConfigOM) {
@@ -119,6 +120,14 @@ public class FederatedAuthenticatorConfig implements Serializable {
      */
     public Property[] getProperties() {
         return properties;
+    }
+
+    public boolean isPolicyAdded() {
+        return policyAdded;
+    }
+
+    public void setPolicyAdded(boolean policyAdded) {
+        this.policyAdded = policyAdded;
     }
 
     /**

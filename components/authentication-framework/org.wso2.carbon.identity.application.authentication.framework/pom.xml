@@ -160,14 +160,12 @@
                <executions>
                    <execution>
                        <goals>
-                           <goal>java2wsdl</goal>
+
                        </goals>
                    </execution>
                </executions>
                <configuration>
-                   <className>
-                       org.wso2.carbon.identity.application.authentication.framework.SessionManagementService
-                   </className>
+
                </configuration>
            </plugin>
         </plugins>
