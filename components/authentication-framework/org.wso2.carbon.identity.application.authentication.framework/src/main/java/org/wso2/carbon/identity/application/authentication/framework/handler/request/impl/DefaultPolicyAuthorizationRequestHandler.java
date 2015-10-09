@@ -1,6 +1,5 @@
 package org.wso2.carbon.identity.application.authentication.framework.handler.request.impl;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
@@ -9,8 +8,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.utils.policy.PolicyBuilder;
 import org.wso2.balana.utils.policy.dto.RequestElementDTO;
-import org.wso2.carbon.CarbonConstants;
-import org.wso2.carbon.identity.application.authentication.framework.AuthenticatorFlowStatus;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.ApplicationConfig;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.SequenceConfig;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.StepConfig;
@@ -30,8 +27,6 @@ import org.wso2.carbon.identity.entitlement.ui.dto.RowDTO;
 import org.wso2.carbon.identity.entitlement.ui.util.PolicyCreatorUtil;
 import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,23 +54,21 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                 }
             }
         }
-
         return instance;
     }
 
     /**
      * Executes the authentication flow
      *
-     * @param request
-     * @param response
-     * @throws org.wso2.carbon.identity.application.authentication.framework.exception.FrameworkException
+     * @param request  request
+     * @param response response
      */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        AuthenticationContext context) {
 
         if (log.isDebugEnabled()) {
-            log.debug("In policy authorization flow");
+            log.debug("In policy authorization flow...");
         }
 
         boolean isPolicyAdded = false;
@@ -97,10 +90,8 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                     isPolicyAdded = GetPolicyAddingStatus(spName, tenantName, idpName, authenticatorName);
                     tenantResourceName = spName + "@" + tenantName;
                     idpResourceName = idpName + "@" + tenantName;
-
                 }
             }
-
 
             if (isPolicyAdded) {
                 List<RowDTO> rowDTOs = new ArrayList<RowDTO>();
@@ -110,7 +101,6 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                 rowDTOTenant.setAttributeDataType(EntitlementPolicyConstants.STRING_DATA_TYPE);
                 rowDTOTenant.setAttributeId("urn:oasis:names:tc:xacml:1.0:resource:tenant-id");
                 rowDTOTenant.setCategory("urn:oasis:names:tc:xacml:3.0:attribute-category:tenant");
-
                 rowDTOs.add(rowDTOTenant);
 
                 RowDTO rowDTOResource = new RowDTO();
@@ -118,7 +108,6 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                 rowDTOResource.setAttributeDataType(EntitlementPolicyConstants.STRING_DATA_TYPE);
                 rowDTOResource.setAttributeId("urn:oasis:names:tc:xacml:1.0:resource:idp-id");
                 rowDTOResource.setCategory("urn:oasis:names:tc:xacml:3.0:attribute-category:idp");
-
                 rowDTOs.add(rowDTOResource);
 
                 Map<ClaimMapping, String> claimValuesMap = context.getSubject().getUserAttributes();
@@ -141,49 +130,36 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                                     rowDTO.setAttributeId(requiredClaim);
                                     rowDTO.setCategory(category);
                                     rowDTOs.add(rowDTO);
-
                                 }
                             }
 
                             RequestDTO requestDTO = new RequestDTO();
                             requestDTO.setRowDTOs(rowDTOs);
-
                             RequestElementDTO requestElementDTO = PolicyCreatorUtil.createRequestElementDTO(requestDTO);
-
 
                             String requestString = PolicyBuilder.getInstance().buildRequest(requestElementDTO);
                             String decisionValue = FrameworkServiceDataHolder.getInstance().getEntitlementService().getDecision(requestString);
                             Boolean isAuthorized = evaluateDecision(decisionValue);
                             if (!isAuthorized) {
-                                // int currentStep = context.getCurrentStep();
-                                // StepConfig stepConfig = sequenceConfig.getStepMap().get(currentStep);
-
                                 context.setRequestAuthenticated(false);
-                                // stepConfig.setCompleted(true); //at which step do u get the error?
                                 context.getSequenceConfig().setCompleted(true);
-                                //see the chrome
-                                //me line wala newei
-                                //
                             }
-                            log.info("*********** is authorized " + decisionValue);
+                            if (log.isDebugEnabled()) {
+                                log.info("User authorization status: " + decisionValue);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        log.error("Error occured while authorization flow", e);
+                        log.error("Error occurred while authorization flow", e);
                     }
-
                 }
-
-
             }
-
         }
     }
 
     private Boolean evaluateDecision(String decisionValue) {
-        DocumentBuilder db = null;
         try {
-            db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             InputSource is = new InputSource();
             is.setCharacterStream(new StringReader(decisionValue));
             Document doc = db.parse(is);
@@ -197,28 +173,24 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                     String nodeValue = node.getNodeValue();
                     if (nodeValue.equalsIgnoreCase("Permit") || nodeValue.equalsIgnoreCase("Not Applicable")) {
                         return true;
-                    } else {
-                        return false;
                     }
-
                 }
             }
-
         } catch (Exception e) {
-            log.error("Error occurred while parsing xacml response", e);
+            log.error("Error occurred while parsing XACML response", e);
         }
-
         return false;
-        //return decisionString;
     }
 
-    private ClaimsUrlValuesMap getClaimsValuesByRequiredClaim(String requiredClaim, Map<ClaimMapping, String> claimValuesMap, ClaimMapping[] claimMappingArray) {
+    private ClaimsUrlValuesMap getClaimsValuesByRequiredClaim(String requiredClaim,
+                                                              Map<ClaimMapping, String> claimValuesMap,
+                                                              ClaimMapping[] claimMappingArray) {
         String remoteClaimName;
-        ClaimsUrlValuesMap claimsUrlValuesMap = null;
-        for (int i = 0; i < claimMappingArray.length; i++) {
-            String localClaimUrl = claimMappingArray[i].getLocalClaim().getClaimUri();
+        ClaimsUrlValuesMap claimsUrlValuesMap;
+        for (ClaimMapping aClaimMappingArray : claimMappingArray) {
+            String localClaimUrl = aClaimMappingArray.getLocalClaim().getClaimUri();
             if (localClaimUrl.equals(requiredClaim)) {
-                remoteClaimName = claimMappingArray[i].getRemoteClaim().getClaimUri();
+                remoteClaimName = aClaimMappingArray.getRemoteClaim().getClaimUri();
 
                 for (Map.Entry<ClaimMapping, String> entry : claimValuesMap.entrySet()) {
                     ClaimMapping entryMap = entry.getKey();
@@ -227,13 +199,10 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                         claimsUrlValuesMap = new ClaimsUrlValuesMap(localClaimUrl, remoteClaimName, entry.getValue());
                         return claimsUrlValuesMap;
                     }
-
                 }
-
             }
-
         }
-        return claimsUrlValuesMap;
+        return null;
     }
 
 
@@ -244,26 +213,18 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
             int tenantId = FrameworkServiceComponent.getRealmService().getTenantManager()
                     .getTenantId(tenantName);
             Connection connection = IdentityDatabaseUtil.getDBConnection();
-            int authenticatorId = getAuthentictorID(connection, tenantId, idpName, authenticatorName);
+            int authenticatorId = getAuthenticatorID(connection, tenantId, idpName, authenticatorName);
 
             int spId = getApplicationIDByName(spName, tenantId, connection);
             isPolicyAdded = getPolicyAddedForSPAndAuthenticator(spId, authenticatorId, connection);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred while getting policy availability.", e);
         }
         return isPolicyAdded;
     }
 
-    /**
-     * @param conn
-     * @param tenantId
-     * @param idpName
-     * @param authenticatorName
-     * @return
-     * @throws java.sql.SQLException
-     */
-    private int getAuthentictorID(Connection conn, int tenantId, String idpName,
-                                  String authenticatorName) throws SQLException {
+    private int getAuthenticatorID(Connection conn, int tenantId, String idpName,
+                                   String authenticatorName) throws SQLException {
         if (idpName == null || idpName.isEmpty()) {
             return -1;
         }
@@ -285,6 +246,8 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
             }
         } finally {
             IdentityApplicationManagementUtil.closeStatement(prepStmt);
+            IdentityApplicationManagementUtil.closeResultSet(rs);
+            IdentityApplicationManagementUtil.closeConnection(conn);
         }
         return authId;
     }
@@ -312,22 +275,22 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
             }
 
         } catch (SQLException e) {
-            IdentityApplicationManagementUtil.closeConnection(connection);
-            log.error("Error in storing the application", e);
-            throw new IdentityApplicationManagementException("Error while storing application", e);
+            log.error("Error occurred while getting application ID", e);
+            throw new IdentityApplicationManagementException("Error occurred while getting application ID", e);
         } finally {
             IdentityApplicationManagementUtil.closeResultSet(appidResult);
             IdentityApplicationManagementUtil.closeStatement(getAppIDPrepStmt);
+            IdentityApplicationManagementUtil.closeConnection(connection);
         }
 
         return applicationId;
     }
 
-    public boolean getPolicyAddedForSPAndAuthenticator(
+    private boolean getPolicyAddedForSPAndAuthenticator(
             int applicationId, int authenticatorId, Connection connection) throws SQLException {
         PreparedStatement getPolicyInfoPrepStmt = null;
         ResultSet stepInfoResultSet = null;
-        boolean isPolicyAdded = true;
+        boolean isPolicyAdded;
         try {
             getPolicyInfoPrepStmt = connection
                     .prepareStatement(ApplicationMgtDBQueries.LOAD_POLICY_ADDED_INFO_BY_APP_ID_AND_AUTHENTICATOR_ID);
@@ -336,13 +299,14 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
             stepInfoResultSet = getPolicyInfoPrepStmt.executeQuery();
 
             if (stepInfoResultSet.next()) {
-                isPolicyAdded = stepInfoResultSet.getInt(1) == 1 ? true : false;
+                isPolicyAdded = stepInfoResultSet.getInt(1) == 1;
                 return isPolicyAdded;
             }
-            return isPolicyAdded;
+            return false;
         } finally {
             IdentityApplicationManagementUtil.closeStatement(getPolicyInfoPrepStmt);
             IdentityApplicationManagementUtil.closeResultSet(stepInfoResultSet);
+            IdentityApplicationManagementUtil.closeConnection(connection);
         }
 
     }
@@ -372,4 +336,3 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
 
     }
 }
-
