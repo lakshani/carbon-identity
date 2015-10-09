@@ -882,6 +882,7 @@ public class ApplicationDAOImpl implements ApplicationDAO {
                                             storeStepIDPAuthnPrepStmt.setInt(1, stepId);
                                             storeStepIDPAuthnPrepStmt.setInt(2, tenantID);
                                             storeStepIDPAuthnPrepStmt.setInt(3, authenticatorId);
+                                            storeStepIDPAuthnPrepStmt.setInt(4, "1".equals(authenticator.isPolicyAdded()) ? 1 : 0);
                                             storeStepIDPAuthnPrepStmt.addBatch();
 
                                             if (debugMode) {
