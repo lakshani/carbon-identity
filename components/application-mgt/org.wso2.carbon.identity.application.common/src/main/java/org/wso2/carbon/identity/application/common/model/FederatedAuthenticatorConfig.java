@@ -36,7 +36,7 @@ public class FederatedAuthenticatorConfig implements Serializable {
     protected String name;
     protected String displayName;
     protected boolean enabled;
-    protected boolean policyAdded;
+    protected boolean authorizationEnabled;
     protected Property[] properties = new Property[0];
 
     public static FederatedAuthenticatorConfig build(OMElement federatedAuthenticatorConfigOM) {
@@ -59,6 +59,8 @@ public class FederatedAuthenticatorConfig implements Serializable {
                 federatedAuthenticatorConfig.setDisplayName(element.getText());
             } else if ("IsEnabled".equals(elementName)) {
                 federatedAuthenticatorConfig.setEnabled(Boolean.parseBoolean(element.getText()));
+            } else if ("IsAuthorizationEnabled".equals(elementName)) {
+                federatedAuthenticatorConfig.setAuthorizationEnabled(Boolean.parseBoolean(element.getText()));
             } else if ("Properties".equals(elementName)) {
                 Iterator<?> propertiesIter = element.getChildElements();
                 List<Property> propertiesArrList = new ArrayList<Property>();
@@ -122,12 +124,12 @@ public class FederatedAuthenticatorConfig implements Serializable {
         return properties;
     }
 
-    public boolean isPolicyAdded() {
-        return policyAdded;
+    public boolean isAuthorizationEnabled() {
+        return authorizationEnabled;
     }
 
-    public void setPolicyAdded(boolean policyAdded) {
-        this.policyAdded = policyAdded;
+    public void setAuthorizationEnabled(boolean authorizationEnabled) {
+        this.authorizationEnabled = authorizationEnabled;
     }
 
     /**

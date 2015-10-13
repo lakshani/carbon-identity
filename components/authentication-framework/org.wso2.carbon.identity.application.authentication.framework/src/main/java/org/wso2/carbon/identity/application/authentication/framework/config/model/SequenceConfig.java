@@ -41,6 +41,7 @@ public class SequenceConfig implements Serializable {
     private List<AuthenticatorConfig> reqPathAuthenticators = new ArrayList<>();
     private ApplicationConfig applicationConfig = null;
     private boolean completed;
+    private boolean authorized;
 
     private AuthenticatedUser authenticatedUser;
     private String authenticatedIdPs;
@@ -113,6 +114,14 @@ public class SequenceConfig implements Serializable {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public boolean isAuthorized() {
+        return authorized;
+    }
+
+    public void setAuthorized(boolean authorized) {
+        this.authorized = authorized;
     }
 
     public AuthenticatedUser getAuthenticatedUser() {

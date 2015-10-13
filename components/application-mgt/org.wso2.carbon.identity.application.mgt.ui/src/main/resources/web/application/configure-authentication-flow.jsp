@@ -482,12 +482,11 @@ var img = "";
 							      	        IdentityProvider[] fedIdps = step.getFederatedIdentityProviders();
 							      			if (fedIdps!=null && fedIdps.length>0){
 							      			int j = 0;
-							      			for(IdentityProvider idp:fedIdps) {
-							      				if (idp != null) {
-                                                    boolean isPolicyAdded = false;
-                                                    FederatedAuthenticatorConfig federatedAuthenticatorConfigs = idp.getFederatedAuthenticatorConfigs()[0];
-                                                    isPolicyAdded = federatedAuthenticatorConfigs.getPolicyAdded();
-
+                                            for(IdentityProvider idp:fedIdps) {
+							      			   if (idp != null) {
+                                                  boolean isAuthorizationEnabled = false;
+                                                  FederatedAuthenticatorConfig federatedAuthenticatorConfigs = idp.getFederatedAuthenticatorConfigs()[0];
+                                                  isAuthorizationEnabled = federatedAuthenticatorConfigs.getAuthorizationEnabled();
 							              %>
 							      
 							      	       <tr>
@@ -499,7 +498,7 @@ var img = "";
                                                     <select name="step_<%=step.getStepOrder()%>_idp_<%=Encode.forHtmlAttribute(idp.getIdentityProviderName())%>_fed_authenticator" style="float: left; min-width: 150px;font-size:13px;"><%=stepIdpAuthenticators.get(step.getStepOrder() +"_"+ idp.getIdentityProviderName())%></select>
 							      	      		</td>
                                                 <td>
-                                                    <input type="checkbox" name="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" id="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" value="1" <%=isPolicyAdded ? "checked" : "" %>>
+                                                    <input type="checkbox" name="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" id="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" value="1" <%=isAuthorizationEnabled ? "checked" : "" %>>
                                                     <label for="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" style="cursor: pointer;">Enable Authorization</label>
                                                 </td>
 							      	      		<td class="leftCol-small" >

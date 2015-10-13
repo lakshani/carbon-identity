@@ -882,7 +882,7 @@ public class ApplicationDAOImpl implements ApplicationDAO {
                                             storeStepIDPAuthnPrepStmt.setInt(1, stepId);
                                             storeStepIDPAuthnPrepStmt.setInt(2, tenantID);
                                             storeStepIDPAuthnPrepStmt.setInt(3, authenticatorId);
-                                            storeStepIDPAuthnPrepStmt.setInt(4, "1".equals(authenticator.isPolicyAdded()) ? 1 : 0);
+                                            storeStepIDPAuthnPrepStmt.setInt(4, authenticator.isAuthorizationEnabled() ? 1 : 0);
                                             storeStepIDPAuthnPrepStmt.addBatch();
 
                                             if (debugMode) {
@@ -1573,6 +1573,7 @@ public class ApplicationDAOImpl implements ApplicationDAO {
                             .get(ApplicationConstants.IDP_AUTHENTICATOR_NAME));
                     fedAuthenticator.setDisplayName(authenticatorInfo
                             .get(ApplicationConstants.IDP_AUTHENTICATOR_DISPLAY_NAME));
+                    fedAuthenticator.setAuthorizationEnabled(authenticatorInfo.get());
                     idpAuths.add(fedAuthenticator);
                 }
 
