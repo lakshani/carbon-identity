@@ -196,6 +196,7 @@
                     <xs:element minOccurs="0" name="displayName" nillable="true" type="xs:string"/>
                     <xs:element minOccurs="0" name="enabled" type="xs:boolean"/>
                     <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="authorizationEnabled" type="xs:boolean"/>
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="properties" nillable="true" type="ax2120:Property"/>
                     <xs:element minOccurs="0" name="valid" type="xs:boolean"/>
                 </xs:sequence>

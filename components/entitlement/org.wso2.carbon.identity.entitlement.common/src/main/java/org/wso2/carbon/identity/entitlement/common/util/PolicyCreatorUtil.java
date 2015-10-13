@@ -16,20 +16,16 @@
 * under the License.
 */
 
-package org.wso2.carbon.identity.entitlement.ui.util;
+package org.wso2.carbon.identity.entitlement.common.util;
 
 import org.wso2.balana.utils.policy.dto.AttributeElementDTO;
 import org.wso2.balana.utils.policy.dto.AttributesElementDTO;
 import org.wso2.balana.utils.policy.dto.RequestElementDTO;
-import org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyConstants;
-import org.wso2.carbon.identity.entitlement.ui.dto.RequestDTO;
-import org.wso2.carbon.identity.entitlement.ui.dto.RowDTO;
+import org.wso2.carbon.identity.entitlement.common.EntitlementPolicyConstants;
+import org.wso2.carbon.identity.entitlement.common.dto.RequestDTO;
+import org.wso2.carbon.identity.entitlement.common.dto.RowDTO;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This is Util class which help to create a XACML policy

@@ -16,7 +16,7 @@
 * under the License.
 */
 
-package org.wso2.carbon.identity.entitlement.ui;
+package org.wso2.carbon.identity.entitlement.common;
 
 /**
  * Constants related with XACML policy such as per-defined Element Names and NameSpaces

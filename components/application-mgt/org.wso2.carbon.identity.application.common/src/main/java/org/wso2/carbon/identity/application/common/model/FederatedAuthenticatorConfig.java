@@ -59,8 +59,6 @@ public class FederatedAuthenticatorConfig implements Serializable {
                 federatedAuthenticatorConfig.setDisplayName(element.getText());
             } else if ("IsEnabled".equals(elementName)) {
                 federatedAuthenticatorConfig.setEnabled(Boolean.parseBoolean(element.getText()));
-            } else if ("IsAuthorizationEnabled".equals(elementName)) {
-                federatedAuthenticatorConfig.setAuthorizationEnabled(Boolean.parseBoolean(element.getText()));
             } else if ("Properties".equals(elementName)) {
                 Iterator<?> propertiesIter = element.getChildElements();
                 List<Property> propertiesArrList = new ArrayList<Property>();

@@ -30,14 +30,14 @@ import org.wso2.balana.utils.policy.dto.RequestElementDTO;
 import org.wso2.balana.utils.policy.dto.RuleElementDTO;
 import org.wso2.balana.utils.policy.dto.TargetElementDTO;
 import org.wso2.carbon.identity.entitlement.common.PolicyEditorException;
+import org.wso2.carbon.identity.entitlement.common.dto.RequestDTO;
+import org.wso2.carbon.identity.entitlement.common.util.PolicyCreatorUtil;
 import org.wso2.carbon.identity.entitlement.ui.client.EntitlementPolicyAdminServiceClient;
 import org.wso2.carbon.identity.entitlement.ui.dto.PolicyDTO;
 import org.wso2.carbon.identity.entitlement.ui.dto.PolicyRefIdDTO;
 import org.wso2.carbon.identity.entitlement.ui.dto.PolicySetDTO;
-import org.wso2.carbon.identity.entitlement.ui.dto.RequestDTO;
 import org.wso2.carbon.identity.entitlement.ui.dto.RuleDTO;
 import org.wso2.carbon.identity.entitlement.ui.dto.SimplePolicyEditorDTO;
-import org.wso2.carbon.identity.entitlement.ui.util.PolicyCreatorUtil;
 import org.wso2.carbon.identity.entitlement.ui.util.PolicyEditorUtil;
 
 import java.util.List;

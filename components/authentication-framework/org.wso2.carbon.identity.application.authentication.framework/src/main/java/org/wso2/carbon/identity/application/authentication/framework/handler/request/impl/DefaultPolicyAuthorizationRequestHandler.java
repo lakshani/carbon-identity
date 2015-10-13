@@ -17,10 +17,10 @@ import org.wso2.carbon.identity.application.authentication.framework.internal.Fr
 import org.wso2.carbon.identity.application.common.model.ClaimMapping;
 import org.wso2.carbon.identity.application.common.util.CharacterEncoder;
 import org.wso2.carbon.identity.entitlement.EntitlementException;
-import org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyConstants;
-import org.wso2.carbon.identity.entitlement.ui.dto.RequestDTO;
-import org.wso2.carbon.identity.entitlement.ui.dto.RowDTO;
-import org.wso2.carbon.identity.entitlement.ui.util.PolicyCreatorUtil;
+import org.wso2.carbon.identity.entitlement.common.EntitlementPolicyConstants;
+import org.wso2.carbon.identity.entitlement.common.dto.RequestDTO;
+import org.wso2.carbon.identity.entitlement.common.dto.RowDTO;
+import org.wso2.carbon.identity.entitlement.common.util.PolicyCreatorUtil;
 import org.wso2.carbon.identity.application.common.model.IdentityProvider;
 import org.wso2.carbon.identity.application.common.model.FederatedAuthenticatorConfig;
 import org.xml.sax.InputSource;
@@ -129,7 +129,8 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                     Boolean isAuthorized = evaluateXacmlResponse(xacmlResponse);
                     if (!isAuthorized) {
                         context.getSequenceConfig().setAuthorized(false);
-                        throw new AuthorizationFailedException("User is not authorized");
+                        context.getSequenceConfig().setCompleted(true);
+                       // throw new AuthorizationFailedException("User is not authorized");
                     }
                 } catch (PolicyBuilderException e) {
                     throw new FrameworkException("Policy Builder Exception occurred", e);

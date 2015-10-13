@@ -17,7 +17,7 @@
 -->
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.dto.ObligationDTO" %>
 <%@ page import="org.owasp.encoder.Encode" %>
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.dto.RowDTO" %>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.dto.RowDTO" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.dto.RuleDTO" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.dto.TargetDTO" %>
 <%@ page import="org.wso2.carbon.ui.util.CharacterEncoder" %>

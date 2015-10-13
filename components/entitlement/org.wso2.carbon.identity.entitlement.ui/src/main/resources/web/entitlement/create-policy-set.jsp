@@ -23,13 +23,13 @@
 <%@ page import="org.wso2.carbon.identity.entitlement.common.PolicyEditorEngine" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.common.dto.PolicyEditorDataHolder" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.stub.dto.PaginatedPolicySetDTO" %>
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyConstants" %>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.EntitlementPolicyConstants" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.PolicyEditorConstants" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.client.EntitlementPolicyAdminServiceClient" %>
 <%@ page
         import="org.wso2.carbon.identity.entitlement.ui.dto.ObligationDTO" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.dto.PolicyRefIdDTO" %>
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.dto.RowDTO" %>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.dto.RowDTO" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.dto.TargetDTO" %>
 <%@ page import="org.wso2.carbon.ui.CarbonUIUtil" %>
 <%@ page import="org.wso2.carbon.ui.util.CharacterEncoder" %>

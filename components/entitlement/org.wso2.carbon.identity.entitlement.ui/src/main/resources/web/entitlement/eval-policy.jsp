@@ -16,10 +16,10 @@
  ~ under the License.
  -->
 
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyConstants" %>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.EntitlementPolicyConstants" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyCreator" %>
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.dto.RequestDTO" %>
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.dto.RowDTO" %>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.dto.RequestDTO" %>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.dto.RowDTO" %>
 <%@ page import="org.wso2.carbon.ui.CarbonUIMessage" %>
 <%@ page import="org.wso2.carbon.ui.util.CharacterEncoder" %>
 <%@ page import="java.util.ArrayList" %>

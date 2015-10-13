@@ -222,6 +222,9 @@ public class DefaultAuthenticationRequestHandler implements AuthenticationReques
         boolean isAuthenticated = context.isRequestAuthenticated();
         authenticationResult.setAuthenticated(isAuthenticated);
 
+        boolean isAuthorized = context.getSequenceConfig().isAuthorized();
+        authenticationResult.setAuthenticated(isAuthenticated);
+
         String authenticatedUserTenantDomain = getAuthenticatedUserTenantDomain(context, authenticationResult);
 
         authenticationResult.setSaaSApp(sequenceConfig.getApplicationConfig().isSaaSApp());

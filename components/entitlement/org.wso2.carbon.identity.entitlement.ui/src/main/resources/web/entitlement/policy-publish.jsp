@@ -23,7 +23,7 @@
 <%@ page import="org.wso2.carbon.CarbonConstants" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.stub.dto.PublisherDataHolder" %>
 <%@page import="org.wso2.carbon.identity.entitlement.stub.dto.PublisherPropertyDTO" %>
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyConstants" %>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.EntitlementPolicyConstants" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.client.EntitlementPolicyAdminServiceClient" %>
 <%@ page
         import="org.wso2.carbon.identity.entitlement.ui.util.ClientUtil" %>

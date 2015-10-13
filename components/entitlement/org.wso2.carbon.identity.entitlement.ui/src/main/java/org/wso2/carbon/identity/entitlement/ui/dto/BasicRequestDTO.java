@@ -17,6 +17,8 @@
 */
 package org.wso2.carbon.identity.entitlement.ui.dto;
 
+import org.wso2.carbon.identity.entitlement.common.dto.RowDTO;
+
 import java.util.List;
 
 /**

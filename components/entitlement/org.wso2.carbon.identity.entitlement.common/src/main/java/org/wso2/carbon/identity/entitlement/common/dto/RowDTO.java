@@ -16,7 +16,7 @@
 * under the License.
 */
 
-package org.wso2.carbon.identity.entitlement.ui.dto;
+package org.wso2.carbon.identity.entitlement.common.dto;
 
 /**
  *

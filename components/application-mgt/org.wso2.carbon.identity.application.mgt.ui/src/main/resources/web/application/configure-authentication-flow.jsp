@@ -498,8 +498,8 @@ var img = "";
                                                     <select name="step_<%=step.getStepOrder()%>_idp_<%=Encode.forHtmlAttribute(idp.getIdentityProviderName())%>_fed_authenticator" style="float: left; min-width: 150px;font-size:13px;"><%=stepIdpAuthenticators.get(step.getStepOrder() +"_"+ idp.getIdentityProviderName())%></select>
 							      	      		</td>
                                                 <td>
-                                                    <input type="checkbox" name="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" id="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" value="1" <%=isAuthorizationEnabled ? "checked" : "" %>>
-                                                    <label for="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" style="cursor: pointer;">Enable Authorization</label>
+                                                    <input type="checkbox" name="step_<%=step.getStepOrder()%>_idp_<%=Encode.forHtmlAttribute(idp.getIdentityProviderName())%>_isAddedPolicy" id="step_<%=step.getStepOrder()%>_idp_<%=idp.getIdentityProviderName()%>_isAddedPolicy" value="1" <%=isAuthorizationEnabled ? "checked" : "" %>>
+                                                    <label for="step_<%=step.getStepOrder()%>_idp_<%=Encode.forHtmlAttribute(idp.getIdentityProviderName())%>_isAddedPolicy" style="cursor: pointer;">Enable Authorization</label>
                                                 </td>
 							      	      		<td class="leftCol-small" >
 							      	      		<a onclick="deleteIDPRow(this);return false;" href="#" class="icon-link" style="background-image: url(images/delete.gif)"> Delete </a>

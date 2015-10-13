@@ -19,7 +19,7 @@
 <%@ taglib uri="http://wso2.org/projects/carbon/taglibs/carbontags.jar"
            prefix="carbon"%>
 
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyConstants" %>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.EntitlementPolicyConstants" %>
 <%@ page import="org.owasp.encoder.Encode" %>
 <jsp:include page="../resources/resources-i18n-ajaxprocessor.jsp"/>
 <%

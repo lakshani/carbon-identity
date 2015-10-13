@@ -32,6 +32,7 @@ public class AuthenticationResult implements Serializable {
     private boolean isSaaSApp;
     private boolean loggedOut;
     private Map<String, String> claimMapping;
+    private boolean authorized;
 
     public AuthenticationResult() {
     }
@@ -97,6 +98,14 @@ public class AuthenticationResult implements Serializable {
 
     public void setSaaSApp(boolean isSaaSApp) {
         this.isSaaSApp = isSaaSApp;
+    }
+
+    public boolean isAuthorized() {
+        return authorized;
+    }
+
+    public void setAuthorized(boolean authorized) {
+        this.authorized = authorized;
     }
 
 

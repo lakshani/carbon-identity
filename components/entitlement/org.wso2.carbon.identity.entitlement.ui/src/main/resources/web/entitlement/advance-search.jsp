@@ -22,7 +22,7 @@
 <%@ page import="org.wso2.carbon.CarbonConstants"%>
 <%@ page import="org.wso2.carbon.identity.entitlement.stub.dto.EntitledAttributesDTO"%>
 <%@ page import="org.wso2.carbon.identity.entitlement.stub.dto.EntitledResultSetDTO"%>
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyConstants" %>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.EntitlementPolicyConstants" %>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.client.EntitlementServiceClient" %>
 <%@ page import="org.wso2.carbon.ui.CarbonUIMessage"%>
 <%@ page import="org.wso2.carbon.ui.CarbonUIUtil" %>

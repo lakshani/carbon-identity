@@ -1573,7 +1573,7 @@ public class ApplicationDAOImpl implements ApplicationDAO {
                             .get(ApplicationConstants.IDP_AUTHENTICATOR_NAME));
                     fedAuthenticator.setDisplayName(authenticatorInfo
                             .get(ApplicationConstants.IDP_AUTHENTICATOR_DISPLAY_NAME));
-                    fedAuthenticator.setAuthorizationEnabled(authenticatorInfo.get());
+                    fedAuthenticator.setAuthorizationEnabled("1".equals(stepInfoResultSet.getString(5)));
                     idpAuths.add(fedAuthenticator);
                 }
 

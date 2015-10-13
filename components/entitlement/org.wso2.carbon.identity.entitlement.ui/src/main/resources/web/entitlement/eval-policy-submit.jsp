@@ -17,7 +17,7 @@
  -->
 <%@ page import="org.apache.axis2.context.ConfigurationContext"%>
 <%@ page import="org.wso2.carbon.CarbonConstants"%>
-<%@ page import="org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyConstants"%>
+<%@ page import="org.wso2.carbon.identity.entitlement.common.EntitlementPolicyConstants"%>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.EntitlementPolicyCreator"%>
 <%@ page import="org.wso2.carbon.identity.entitlement.ui.client.EntitlementAdminServiceClient"%>
 
@@ -157,8 +157,8 @@
 %>
 
 <%@page import="org.wso2.carbon.identity.entitlement.ui.client.EntitlementServiceClient"%>
-<%@page import="org.wso2.carbon.identity.entitlement.ui.dto.RequestDTO"%>
-<%@page import="org.wso2.carbon.identity.entitlement.ui.dto.RowDTO" %>
+<%@page import="org.wso2.carbon.identity.entitlement.common.dto.RequestDTO"%>
+<%@page import="org.wso2.carbon.identity.entitlement.common.dto.RowDTO" %>
 <%@page import="org.wso2.carbon.identity.entitlement.ui.util.ClientUtil" %>
 <%@ page import="org.wso2.carbon.ui.CarbonUIMessage" %>
 <%@ page import="org.wso2.carbon.ui.CarbonUIUtil" %>

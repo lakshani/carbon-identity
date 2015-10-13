@@ -664,6 +664,14 @@ public class SAMLSSOProviderServlet extends HttpServlet {
                     throw new IdentityException("Session data is not found for authenticated user");
                 }
             }
+        } else if (!authResult.isAuthorized()) {
+            String destination = reqValidationDTO.getDestination();
+            String errorResp = SAMLSSOUtil.buildErrorResponse(
+                    "fffffffffffffff",
+                    "User authorization failed", destination);
+            sendNotification(errorResp, "gggggggggggggggggg",
+                    "rrrrrrrrrrrrrrrrrrr",
+                    reqValidationDTO.getAssertionConsumerURL(), req, resp);
         } else {
             populateAuthnReqDTO(req, authnReqDTO, sessionDTO, authResult);
             req.setAttribute(SAMLSSOConstants.AUTHENTICATION_RESULT, authResult);
