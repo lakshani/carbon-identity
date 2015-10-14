@@ -177,6 +177,8 @@ public class EntitlementPolicyConstants {
 
     public static final String RULE_EFFECT_DENY = "Deny";
 
+    public static final String RULE_EFFECT_NOT_APPLICABLE = "Not Applicable";
+
     public static final String ACTION_ID = "urn:oasis:names:tc:xacml:1.0:action:action-id";
 
     public static final String ENVIRONMENT_ID = "urn:oasis:names:tc:xacml:1.0:environment:environment-id";

@@ -223,7 +223,7 @@ public class DefaultAuthenticationRequestHandler implements AuthenticationReques
         authenticationResult.setAuthenticated(isAuthenticated);
 
         boolean isAuthorized = context.getSequenceConfig().isAuthorized();
-        authenticationResult.setAuthenticated(isAuthenticated);
+        authenticationResult.setAuthorized(isAuthorized);
 
         String authenticatedUserTenantDomain = getAuthenticatedUserTenantDomain(context, authenticationResult);
 

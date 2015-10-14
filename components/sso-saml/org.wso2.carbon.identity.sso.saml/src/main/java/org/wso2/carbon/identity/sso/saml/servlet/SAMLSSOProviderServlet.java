@@ -627,7 +627,7 @@ public class SAMLSSOProviderServlet extends HttpServlet {
         SAMLSSOReqValidationResponseDTO reqValidationDTO = sessionDTO.getValidationRespDTO();
         SAMLSSOAuthnReqDTO authnReqDTO = new SAMLSSOAuthnReqDTO();
 
-        if (authResult == null || !authResult.isAuthenticated()) {
+        if (authResult == null || !authResult.isAuthenticated() || !authResult.isAuthorized() ) {
 
             if (log.isDebugEnabled() && authResult != null) {
                 log.debug("Unauthenticated User");
@@ -652,26 +652,29 @@ public class SAMLSSOProviderServlet extends HttpServlet {
             } else { // if forceAuthn or normal flow
                 //TODO send a saml response with a status message.
                 if (!authResult.isAuthenticated()) {
-                    String destination = reqValidationDTO.getDestination();
-                    String errorResp = SAMLSSOUtil.buildErrorResponse(
-                            SAMLSSOConstants.StatusCodes.AUTHN_FAILURE,
-                            "User authentication failed", destination);
-                    sendNotification(errorResp, SAMLSSOConstants.Notification.EXCEPTION_STATUS,
-                            SAMLSSOConstants.Notification.EXCEPTION_MESSAGE,
-                            reqValidationDTO.getAssertionConsumerURL(), req, resp);
+                    if (!authResult.isAuthorized()) {
+                        String destination = reqValidationDTO.getDestination();
+                        String errorResp = SAMLSSOUtil.buildErrorResponse(
+                                SAMLSSOConstants.StatusCodes.AUTHN_FAILURE,
+                                "User authorization failed", destination);
+                        sendNotification(errorResp, SAMLSSOConstants.Notification.EXCEPTION_AUTHORIZATION_STATUS,
+                                SAMLSSOConstants.Notification.EXCEPTION_MESSAGE,
+                                reqValidationDTO.getAssertionConsumerURL(), req, resp);
+                    } else {
+                        String destination = reqValidationDTO.getDestination();
+                        String errorResp = SAMLSSOUtil.buildErrorResponse(
+                                SAMLSSOConstants.StatusCodes.AUTHN_FAILURE,
+                                "User authentication failed", destination);
+                        sendNotification(errorResp, SAMLSSOConstants.Notification.EXCEPTION_STATUS,
+                                SAMLSSOConstants.Notification.EXCEPTION_MESSAGE,
+                                reqValidationDTO.getAssertionConsumerURL(), req, resp);
+                    }
+
                     return;
                 } else {
                     throw new IdentityException("Session data is not found for authenticated user");
                 }
             }
-        } else if (!authResult.isAuthorized()) {
-            String destination = reqValidationDTO.getDestination();
-            String errorResp = SAMLSSOUtil.buildErrorResponse(
-                    "fffffffffffffff",
-                    "User authorization failed", destination);
-            sendNotification(errorResp, "gggggggggggggggggg",
-                    "rrrrrrrrrrrrrrrrrrr",
-                    reqValidationDTO.getAssertionConsumerURL(), req, resp);
         } else {
             populateAuthnReqDTO(req, authnReqDTO, sessionDTO, authResult);
             req.setAttribute(SAMLSSOConstants.AUTHENTICATION_RESULT, authResult);

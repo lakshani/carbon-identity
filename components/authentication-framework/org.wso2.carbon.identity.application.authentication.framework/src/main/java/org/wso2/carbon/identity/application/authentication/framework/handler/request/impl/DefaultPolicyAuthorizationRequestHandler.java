@@ -92,7 +92,6 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                         if (authenticatorName == federatedAuthenticatorConfigs[j].getName()) {
                             isAuthorizationEnabled = federatedAuthenticatorConfigs[j].isAuthorizationEnabled();
                         }
-
                     }
                     tenantResourceName = spName + "@" + tenantName;
                     idpResourceName = authenticatedIdpName + "@" + tenantName;
@@ -101,10 +100,10 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
 
             if (isAuthorizationEnabled) {
                 List<RowDTO> rowDTOs = new ArrayList<RowDTO>();
-                RowDTO rowDTOTenant = createDTOforClaim(tenantResourceName, "urn:oasis:names:tc:xacml:1.0:resource:tenant-id", "tenant");
+                RowDTO rowDTOTenant = createDTOForClaim(tenantResourceName, "urn:oasis:names:tc:xacml:1.0:resource:tenant-id", "tenant");
                 rowDTOs.add(rowDTOTenant);
 
-                RowDTO rowDTOResource = createDTOforClaim(idpResourceName, "urn:oasis:names:tc:xacml:1.0:resource:idp-id", "idp");
+                RowDTO rowDTOResource = createDTOForClaim(idpResourceName, "urn:oasis:names:tc:xacml:1.0:resource:idp-id", "idp");
                 rowDTOs.add(rowDTOResource);
 
                 Map<ClaimMapping, String> claimValuesMap = context.getSubject().getUserAttributes();
@@ -115,8 +114,8 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                     for (int i = 0; i < claimUrlValuesArray.size(); i++) {
                         ClaimsUrlValuesMap claimsUrlValuesMap = claimUrlValuesArray.get(i);
                         String claimValue = CharacterEncoder.getSafeText(claimsUrlValuesMap.getClaimValue());
-                        String category = "urn:oasis:names:tc:xacml:3.0:attribute-category:".concat(claimsUrlValuesMap.getRemoteClaimUrl());
-                        RowDTO rowDTO = createDTOforClaim(claimValue, claimsUrlValuesMap.getLocalClaimUrl(), claimsUrlValuesMap.getRemoteClaimUrl());
+                        String category = "access-subject";
+                        RowDTO rowDTO = createDTOForClaim(claimValue, claimsUrlValuesMap.getLocalClaimUrl(), category);
                         rowDTOs.add(rowDTO);
                     }
                     RequestDTO requestDTO = new RequestDTO();
@@ -125,12 +124,11 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
 
                     String requestString = PolicyBuilder.getInstance().buildRequest(requestElementDTO);
                     String xacmlResponse = FrameworkServiceDataHolder.getInstance().getEntitlementService().getDecision(requestString);
-                    log.info("***********************" + xacmlResponse);
                     Boolean isAuthorized = evaluateXacmlResponse(xacmlResponse);
                     if (!isAuthorized) {
+                        context.setRequestAuthenticated(false);
                         context.getSequenceConfig().setAuthorized(false);
                         context.getSequenceConfig().setCompleted(true);
-                       // throw new AuthorizationFailedException("User is not authorized");
                     }
                 } catch (PolicyBuilderException e) {
                     throw new FrameworkException("Policy Builder Exception occurred", e);
@@ -142,7 +140,7 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
         }
     }
 
-    private RowDTO createDTOforClaim(String resourceName, String attributeId, String categoryValue) {
+    private RowDTO createDTOForClaim(String resourceName, String attributeId, String categoryValue) {
         RowDTO rowDTOTenant = new RowDTO();
         rowDTOTenant.setAttributeValue(resourceName);
         rowDTOTenant.setAttributeDataType(EntitlementPolicyConstants.STRING_DATA_TYPE);
@@ -152,7 +150,7 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
 
     }
 
-    private Boolean evaluateXacmlResponse(String xacmlResponse) {
+    private Boolean evaluateXacmlResponse(String xacmlResponse) throws FrameworkException {
         try {
             DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             InputSource is = new InputSource();
@@ -162,18 +160,19 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
             XPath xpath = XPathFactory.newInstance().newXPath();
             XPathExpression expr = xpath.compile("/Response/Result/Decision/text()");
             String decision = (String) expr.evaluate(doc, XPathConstants.STRING);
-            if (decision.equalsIgnoreCase("Permit") || decision.equalsIgnoreCase("Not Applicable")) {
+            if (decision.equalsIgnoreCase(EntitlementPolicyConstants.RULE_EFFECT_PERMIT)
+                    || decision.equalsIgnoreCase(EntitlementPolicyConstants.RULE_EFFECT_NOT_APPLICABLE)) {
                 return true;
             }
 
         } catch (ParserConfigurationException e) {
-            log.error("Exception occurred while xacmlResponse processing.", e);
+            throw new FrameworkException("Exception occurred while xacmlResponse processing", e);
         } catch (SAXException e) {
-            log.error("Exception occurred while xacmlResponse processing.", e);
+            throw new FrameworkException("Exception occurred while xacmlResponse processing", e);
         } catch (XPathExpressionException e) {
-            log.error("Exception occurred while xacmlResponse processing.", e);
+            throw new FrameworkException("Exception occurred while xacmlResponse processing", e);
         } catch (IOException e) {
-            log.error("Error occurred while parsing XACML response", e);
+            throw new FrameworkException("Exception occurred while xacmlResponse processing", e);
         }
         return false;
     }

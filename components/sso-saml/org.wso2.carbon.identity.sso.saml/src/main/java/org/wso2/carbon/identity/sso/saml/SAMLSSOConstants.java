@@ -141,6 +141,7 @@ public class SAMLSSOConstants {
 
     public static class Notification {
         public static final String EXCEPTION_STATUS = "Error when processing the authentication request!";
+        public static final String EXCEPTION_AUTHORIZATION_STATUS = "Error when processing the authorization request!";
         public static final String EXCEPTION_MESSAGE = "Please try login again.";
         public static final String NORELAY_STATUS = "RealyState is not present in the request!";
         public static final String NORELAY_MESSAGE = "This request will not be processed further.";
