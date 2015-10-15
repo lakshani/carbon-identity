@@ -627,7 +627,7 @@ public class SAMLSSOProviderServlet extends HttpServlet {
         SAMLSSOReqValidationResponseDTO reqValidationDTO = sessionDTO.getValidationRespDTO();
         SAMLSSOAuthnReqDTO authnReqDTO = new SAMLSSOAuthnReqDTO();
 
-        if (authResult == null || !authResult.isAuthenticated() || !authResult.isAuthorized() ) {
+        if (authResult == null || !authResult.isAuthenticated() || !authResult.isAuthorized()) {
 
             if (log.isDebugEnabled() && authResult != null) {
                 log.debug("Unauthenticated User");

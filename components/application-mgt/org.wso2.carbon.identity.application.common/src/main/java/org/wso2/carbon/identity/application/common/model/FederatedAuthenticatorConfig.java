@@ -124,10 +124,17 @@ public class FederatedAuthenticatorConfig implements Serializable {
         return properties;
     }
 
+    /**
+     * @return
+     */
     public boolean isAuthorizationEnabled() {
         return authorizationEnabled;
     }
 
+    /**
+     *
+     * @param authorizationEnabled
+     */
     public void setAuthorizationEnabled(boolean authorizationEnabled) {
         this.authorizationEnabled = authorizationEnabled;
     }

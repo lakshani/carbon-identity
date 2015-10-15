@@ -884,7 +884,7 @@ public class ApplicationBean {
                             authenticator.setName(CharacterEncoder.getSafeText(request.getParameter("step_" +
                                     authstep + "_idp_" + name + "_fed_authenticator")));
                             authenticator.setAuthorizationEnabled("1".equals(request.getParameter("step_" +
-                                    authstep + "_idp_" + name + "_isAddedPolicy")));
+                                    authstep + "_idp_" + name + "_isAuthorizationEnabled")));
                             idp.setDefaultAuthenticatorConfig(authenticator);
                             idp.setFederatedAuthenticatorConfigs(new FederatedAuthenticatorConfig[]{authenticator});
 
