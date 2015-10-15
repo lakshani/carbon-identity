@@ -100,7 +100,7 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
 
             if (isAuthorizationEnabled) {
                 try {
-                    RequestDTO requestDTO = createRequestElementDTO(tenantResourceName, idpResourceName, context);
+                    RequestDTO requestDTO = createRequestDTO(tenantResourceName, idpResourceName, context);
                     RequestElementDTO requestElementDTO = PolicyCreatorUtil.createRequestElementDTO(requestDTO);
 
                     String requestString = PolicyBuilder.getInstance().buildRequest(requestElementDTO);
@@ -121,7 +121,7 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
         }
     }
 
-    private RequestDTO createRequestElementDTO(String tenantResourceName, String idpResourceName,
+    private RequestDTO createRequestDTO(String tenantResourceName, String idpResourceName,
                                                       AuthenticationContext context) {
         List<RowDTO> rowDTOs = new ArrayList<RowDTO>();
         RowDTO rowDTOTenant = createDTOForClaim(tenantResourceName, "urn:oasis:names:tc:xacml:1.0:resource:tenant-id", "tenant");
