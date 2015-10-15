@@ -482,11 +482,11 @@ var img = "";
 							      	        IdentityProvider[] fedIdps = step.getFederatedIdentityProviders();
 							      			if (fedIdps!=null && fedIdps.length>0){
 							      			int j = 0;
-                                                                                for(IdentityProvider idp:fedIdps) {
-                                                                                    if (idp != null) {
-                                                                                        boolean isAuthorizationEnabled = false;
-                                                                                        FederatedAuthenticatorConfig federatedAuthenticatorConfigs = idp.getFederatedAuthenticatorConfigs()[0];
-                                                                                        isAuthorizationEnabled = federatedAuthenticatorConfigs.getAuthorizationEnabled();
+                                                                               for(IdentityProvider idp:fedIdps) {
+                                                                                   if (idp != null) {
+                                                                                       boolean isAuthorizationEnabled = false;
+                                                                                       FederatedAuthenticatorConfig federatedAuthenticatorConfigs = idp.getFederatedAuthenticatorConfigs()[0];
+                                                                                       isAuthorizationEnabled = federatedAuthenticatorConfigs.getAuthorizationEnabled();
 							              %>
 							      
 							      	       <tr>
