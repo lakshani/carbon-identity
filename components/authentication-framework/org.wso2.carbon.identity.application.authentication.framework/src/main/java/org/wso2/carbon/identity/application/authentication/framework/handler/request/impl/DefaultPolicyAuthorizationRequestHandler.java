@@ -99,27 +99,8 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
             }
 
             if (isAuthorizationEnabled) {
-                List<RowDTO> rowDTOs = new ArrayList<RowDTO>();
-                RowDTO rowDTOTenant = createDTOForClaim(tenantResourceName, "urn:oasis:names:tc:xacml:1.0:resource:tenant-id", "tenant");
-                rowDTOs.add(rowDTOTenant);
-
-                RowDTO rowDTOResource = createDTOForClaim(idpResourceName, "urn:oasis:names:tc:xacml:1.0:resource:idp-id", "idp");
-                rowDTOs.add(rowDTOResource);
-
-                Map<ClaimMapping, String> claimValuesMap = context.getSubject().getUserAttributes();
-                ClaimMapping[] claimMappingArray = context.getExternalIdP().getClaimMappings();
-
                 try {
-                    ArrayList<ClaimsUrlValuesMap> claimUrlValuesArray = getClaimsValuesByRequiredClaim(claimValuesMap, claimMappingArray);
-                    for (int i = 0; i < claimUrlValuesArray.size(); i++) {
-                        ClaimsUrlValuesMap claimsUrlValuesMap = claimUrlValuesArray.get(i);
-                        String claimValue = CharacterEncoder.getSafeText(claimsUrlValuesMap.getClaimValue());
-                        String category = "access-subject";
-                        RowDTO rowDTO = createDTOForClaim(claimValue, claimsUrlValuesMap.getLocalClaimUrl(), category);
-                        rowDTOs.add(rowDTO);
-                    }
-                    RequestDTO requestDTO = new RequestDTO();
-                    requestDTO.setRowDTOs(rowDTOs);
+                    RequestDTO requestDTO = createRequestElementDTO(tenantResourceName, idpResourceName, context);
                     RequestElementDTO requestElementDTO = PolicyCreatorUtil.createRequestElementDTO(requestDTO);
 
                     String requestString = PolicyBuilder.getInstance().buildRequest(requestElementDTO);
@@ -138,6 +119,32 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
                 }
             }
         }
+    }
+
+    private RequestDTO createRequestElementDTO(String tenantResourceName, String idpResourceName,
+                                                      AuthenticationContext context) {
+        List<RowDTO> rowDTOs = new ArrayList<RowDTO>();
+        RowDTO rowDTOTenant = createDTOForClaim(tenantResourceName, "urn:oasis:names:tc:xacml:1.0:resource:tenant-id", "tenant");
+        rowDTOs.add(rowDTOTenant);
+
+        RowDTO rowDTOResource = createDTOForClaim(idpResourceName, "urn:oasis:names:tc:xacml:1.0:resource:idp-id", "idp");
+        rowDTOs.add(rowDTOResource);
+
+        Map<ClaimMapping, String> claimValuesMap = context.getSubject().getUserAttributes();
+        ClaimMapping[] claimMappingArray = context.getExternalIdP().getClaimMappings();
+
+        ArrayList<ClaimsUrlValuesMap> claimUrlValuesArray = getClaimsValuesByRequiredClaim(claimValuesMap, claimMappingArray);
+        for (int i = 0; i < claimUrlValuesArray.size(); i++) {
+            ClaimsUrlValuesMap claimsUrlValuesMap = claimUrlValuesArray.get(i);
+            String claimValue = CharacterEncoder.getSafeText(claimsUrlValuesMap.getClaimValue());
+            String category = "access-subject";
+            RowDTO rowDTO = createDTOForClaim(claimValue, claimsUrlValuesMap.getLocalClaimUrl(), category);
+            rowDTOs.add(rowDTO);
+        }
+        RequestDTO requestDTO = new RequestDTO();
+        requestDTO.setRowDTOs(rowDTOs);
+
+        return requestDTO;
     }
 
     private RowDTO createDTOForClaim(String resourceName, String attributeId, String categoryValue) {
