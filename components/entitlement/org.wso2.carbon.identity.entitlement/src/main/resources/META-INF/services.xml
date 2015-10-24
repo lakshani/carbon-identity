@@ -192,8 +192,8 @@
 		<schema schemaNamespace="http://org.apache.axis2/xsd" elementFormDefaultQualified="true" />
 		<description>User Entitlement related functionality.</description>
 		<parameter name="ServiceClass">
-			org.wso2.carbon.identity.entitlement.EntitlementService
-		</parameter>
+            org.wso2.carbon.identity.entitlement.EntitlementService
+        </parameter>
 	    <parameter name="AuthorizationAction" locked="true">/permission/admin/login</parameter>
 	</service>
 

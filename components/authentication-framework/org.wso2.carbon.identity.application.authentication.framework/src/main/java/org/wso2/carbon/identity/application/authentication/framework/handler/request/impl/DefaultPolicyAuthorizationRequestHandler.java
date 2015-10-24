@@ -148,7 +148,7 @@ public class DefaultPolicyAuthorizationRequestHandler implements PolicyAuthoriza
 
                             String requestString = PolicyBuilder.getInstance().buildRequest(requestElementDTO);
                             String authorizationString = FrameworkServiceDataHolder.getInstance().getEntitlementService().getDecision(requestString);
-                            log.info("*********** is authorized " + authorizationString);
+                            log.info("*********** is authorized ");
                         }
                     } catch (Exception e) {
                             e.printStackTrace();

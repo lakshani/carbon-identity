@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Thrift based EntitlementService that is exposed by wrapping EntitlementService.
  */
-public class ThriftEntitlementServiceImpl implements EntitlementService.Iface {
+public class ThriftEntitlementServiceImpl implements org.wso2.carbon.identity.entitlement.thrift.EntitlementService.Iface {
     private static Log log = LogFactory.getLog(ThriftEntitlementServiceImpl.class);
     /* Handler to ThriftAuthenticatorService which handles authentication to admin services. */
     private static ThriftAuthenticatorService thriftAuthenticatorService;

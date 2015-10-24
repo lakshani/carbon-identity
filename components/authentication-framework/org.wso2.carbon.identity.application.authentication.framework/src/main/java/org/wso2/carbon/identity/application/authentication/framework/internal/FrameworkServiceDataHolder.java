@@ -20,6 +20,7 @@ package org.wso2.carbon.identity.application.authentication.framework.internal;
 
 import org.osgi.framework.BundleContext;
 import org.wso2.carbon.identity.application.authentication.framework.ApplicationAuthenticator;
+import org.wso2.carbon.identity.entitlement.EntitlementService;
 import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.user.core.service.RealmService;
 
@@ -33,6 +34,7 @@ public class FrameworkServiceDataHolder {
     private RealmService realmService = null;
     private RegistryService registryService = null;
     private List<ApplicationAuthenticator> authenticators = new ArrayList<>();
+    private EntitlementService entitlementService = null;
 
     public static FrameworkServiceDataHolder getInstance() {
         return instance;
@@ -60,6 +62,14 @@ public class FrameworkServiceDataHolder {
 
     public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
+    }
+
+    public EntitlementService getEntitlementService() {
+        return entitlementService;
+    }
+
+    public void setEntitlementService(EntitlementService entitlementService) {
+        this.entitlementService = entitlementService;
     }
 
     public List<ApplicationAuthenticator> getAuthenticators() {

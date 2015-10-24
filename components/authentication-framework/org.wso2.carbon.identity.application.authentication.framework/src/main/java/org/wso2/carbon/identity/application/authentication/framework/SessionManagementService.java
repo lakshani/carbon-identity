@@ -35,38 +35,5 @@ public class SessionManagementService extends AbstractAdmin {
      *
      * @return sessionInfo object arraylist.
      */
-    public ArrayList<UserSessionInfo> getAllSessionInfo() throws SessionManagementException {
-        ArrayList<UserSessionInfo> userSessionInfoList = null;
-        try {
-            userSessionInfoList = SessionContextCache.getInstance(0).getSessionDetails();
-        } catch (Exception e) {
-            String errorMsg = "Error is occurred while getting session details ";
-            log.error(errorMsg, e);
-            throw new SessionManagementException(errorMsg, e);
-        }
-        return userSessionInfoList;
-    }
 
-    /**
-     * Remove sessions for a given user name.
-     * @param userName String.
-     * @param userStoreDomain String.
-     * @param tenantDomainName String.
-     * @return isKilled boolean.
-     * @throws SessionManagementException
-     */
-    public boolean removeSession(String userName, String userStoreDomain,
-                                 String tenantDomainName)
-            throws SessionManagementException {
-        boolean isKilled = false;
-        try {
-            isKilled = SessionContextCache.getInstance(0).removeSessionDetailsFromDbAndCache(
-                    userName, userStoreDomain, tenantDomainName);
-        } catch (Exception e) {
-            String errorMsg = "Error is occurred while killing sessions ";
-            log.error(errorMsg, e);
-            throw new SessionManagementException(errorMsg, e);
-        }
-        return isKilled;
-    }
 }

@@ -26,14 +26,13 @@ import org.apache.thrift.transport.TSSLTransportFactory;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.osgi.service.component.ComponentContext;
-import org.wso2.carbon.base.ServerConfigurationException;
 import org.wso2.carbon.identity.core.util.IdentityUtil;
+import org.wso2.carbon.identity.entitlement.EntitlementService;
 import org.wso2.carbon.identity.entitlement.EntitlementUtil;
 import org.wso2.carbon.identity.entitlement.PDPConstants;
 import org.wso2.carbon.identity.entitlement.dto.PolicyDTO;
 import org.wso2.carbon.identity.entitlement.listener.CacheClearingUserOperationListener;
 import org.wso2.carbon.identity.entitlement.pap.store.PAPPolicyStore;
-import org.wso2.carbon.identity.entitlement.thrift.EntitlementService;
 import org.wso2.carbon.identity.entitlement.thrift.ThriftConfigConstants;
 import org.wso2.carbon.identity.entitlement.thrift.ThriftEntitlementServiceImpl;
 import org.wso2.carbon.identity.notification.mgt.NotificationSender;
@@ -247,6 +246,11 @@ public class EntitlementServiceComponent {
             ctxt.getBundleContext().registerService(
                     UserOperationEventListener.class.getName(), pipUserOperationListener, null);
 
+            EntitlementService entitlementService =
+                    new EntitlementService();
+            ctxt.getBundleContext().registerService(
+                    EntitlementService.class.getName(), entitlementService, null);
+
             // Register Notification sending on user operations. Even though this is registered
             // only subscribed modules will send messages.
             if (log.isDebugEnabled()) {
@@ -370,7 +374,7 @@ public class EntitlementServiceComponent {
                                 getHostAddress(readThriftHostName()),
                                 transportParam);
 
-                EntitlementService.Processor processor = new EntitlementService.Processor(
+                org.wso2.carbon.identity.entitlement.thrift.EntitlementService.Processor processor = new org.wso2.carbon.identity.entitlement.thrift.EntitlementService.Processor(
                         new ThriftEntitlementServiceImpl());
 
                 //TODO: have to decide on the protocol.

@@ -55,9 +55,11 @@ import org.wso2.carbon.identity.application.authentication.framework.handler.pro
 import org.wso2.carbon.identity.application.authentication.framework.handler.provisioning.impl.DefaultProvisioningHandler;
 import org.wso2.carbon.identity.application.authentication.framework.handler.request.AuthenticationRequestHandler;
 import org.wso2.carbon.identity.application.authentication.framework.handler.request.LogoutRequestHandler;
+import org.wso2.carbon.identity.application.authentication.framework.handler.request.PolicyAuthorizationRequestHandler;
 import org.wso2.carbon.identity.application.authentication.framework.handler.request.RequestCoordinator;
 import org.wso2.carbon.identity.application.authentication.framework.handler.request.impl.DefaultAuthenticationRequestHandler;
 import org.wso2.carbon.identity.application.authentication.framework.handler.request.impl.DefaultLogoutRequestHandler;
+import org.wso2.carbon.identity.application.authentication.framework.handler.request.impl.DefaultPolicyAuthorizationRequestHandler;
 import org.wso2.carbon.identity.application.authentication.framework.handler.request.impl.DefaultRequestCoordinator;
 import org.wso2.carbon.identity.application.authentication.framework.handler.roles.RoleHandler;
 import org.wso2.carbon.identity.application.authentication.framework.handler.roles.impl.DefaultRoleHandler;
@@ -343,6 +345,24 @@ public class FrameworkUtils {
         }
 
         return reqPathBasedSeqHandler;
+    }
+
+    /**
+     * @return
+     */
+    public static PolicyAuthorizationRequestHandler getPolicyAuthorizationRequestHandler() {
+
+        PolicyAuthorizationRequestHandler policyAuthorizationRequestHandler = null;
+        Object obj = ConfigurationFacade.getInstance().getExtensions()
+                .get(FrameworkConstants.Config.QNAME_EXT_LOGOUT_REQ_HANDLER);
+
+        if (obj instanceof AuthenticationRequestHandler) {
+            policyAuthorizationRequestHandler = (PolicyAuthorizationRequestHandler) obj;
+        } else {
+            policyAuthorizationRequestHandler = DefaultPolicyAuthorizationRequestHandler.getInstance();
+        }
+
+        return policyAuthorizationRequestHandler;
     }
 
     /**
